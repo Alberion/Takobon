@@ -3,6 +3,7 @@ import Image from "next/image";
 import { BookOpen } from "lucide-react";
 import { type SeriesCollectionEntry } from "@/lib/queries/collection";
 import { cn } from "@/lib/utils";
+import { HoloCard } from "./holo-card";
 
 const typeLabel: Record<string, string> = {
   comic: "Fumetto", manga: "Manga", graphic_novel: "Graphic Novel", bd: "BD",
@@ -14,7 +15,8 @@ export function SeriesCollectionCard({ entry }: { entry: SeriesCollectionEntry }
 
   return (
     <Link href={`/series/${series.slug}`} className="group block">
-      <div className="takobon-card takobon-card-hover overflow-hidden">
+      <HoloCard>
+      <div className="takobon-card overflow-hidden" style={{ transformStyle: "preserve-3d" }}>
         {/* Cover */}
         <div className="relative aspect-[2/3] bg-bg-elevated">
           {series.cover_url ? (
@@ -57,6 +59,7 @@ export function SeriesCollectionCard({ entry }: { entry: SeriesCollectionEntry }
           {missing > 0 && <Stat value={missing} color="text-state-missing" label="manc." />}
         </div>
       </div>
+      </HoloCard>
     </Link>
   );
 }
