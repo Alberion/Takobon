@@ -2,14 +2,18 @@
 
 import { useActionState } from "react";
 import Link from "next/link";
-import { Loader2 } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signup, type AuthState } from "@/app/actions/auth";
+import { cn } from "@/lib/utils";
 
 export function SignupForm() {
   const [state, action, pending] = useActionState<AuthState, FormData>(signup, undefined);
+
+  const emailError = state?.field === "email" || state?.field === "general";
+  const passwordError = state?.field === "password" || state?.field === "general";
 
   return (
     <form action={action} className="space-y-5">
@@ -24,7 +28,13 @@ export function SignupForm() {
           autoComplete="email"
           required
           placeholder="la@tua.email"
-          className="h-12 bg-bg-elevated border-border-default text-text-primary placeholder:text-text-tertiary focus-visible:ring-indigo-500 focus-visible:border-indigo-500 rounded-xl"
+          aria-invalid={emailError}
+          className={cn(
+            "h-12 bg-bg-elevated border text-text-primary placeholder:text-text-tertiary rounded-xl transition-colors",
+            emailError
+              ? "border-red-500 focus-visible:ring-red-500/30 focus-visible:border-red-500"
+              : "border-border-default focus-visible:ring-indigo-500/30 focus-visible:border-indigo-500"
+          )}
         />
       </div>
 
@@ -40,26 +50,29 @@ export function SignupForm() {
           required
           minLength={8}
           placeholder="Minimo 8 caratteri"
-          className="h-12 bg-bg-elevated border-border-default text-text-primary placeholder:text-text-tertiary focus-visible:ring-indigo-500 focus-visible:border-indigo-500 rounded-xl"
+          aria-invalid={passwordError}
+          className={cn(
+            "h-12 bg-bg-elevated border text-text-primary placeholder:text-text-tertiary rounded-xl transition-colors",
+            passwordError
+              ? "border-red-500 focus-visible:ring-red-500/30 focus-visible:border-red-500"
+              : "border-border-default focus-visible:ring-indigo-500/30 focus-visible:border-indigo-500"
+          )}
         />
       </div>
 
       {state?.error && (
-        <p className="text-sm text-semantic-error bg-semantic-error/10 border border-semantic-error/20 rounded-lg px-4 py-3">
-          {state.error}
-        </p>
+        <div className="flex items-start gap-3 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3">
+          <AlertCircle className="size-4 text-red-400 mt-0.5 shrink-0" />
+          <p className="text-sm text-red-300 leading-snug">{state.error}</p>
+        </div>
       )}
 
       <Button
         type="submit"
         disabled={pending}
-        className="w-full h-12 bg-indigo-500 hover:bg-indigo-600 text-white font-medium rounded-xl transition-all duration-150 cursor-pointer"
+        className="w-full h-12 bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 text-white font-medium rounded-xl transition-all duration-150 cursor-pointer"
       >
-        {pending ? (
-          <Loader2 className="size-4 animate-spin" />
-        ) : (
-          "Crea il tuo archivio"
-        )}
+        {pending ? <Loader2 className="size-4 animate-spin" /> : "Crea il tuo archivio"}
       </Button>
 
       <p className="text-center text-sm text-text-tertiary">

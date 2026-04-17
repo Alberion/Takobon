@@ -4,7 +4,27 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
-export type AuthState = { error?: string } | undefined;
+export type AuthState = { error?: string; field?: "email" | "password" | "general" } | undefined;
+
+function mapError(message: string): AuthState {
+  const msg = message.toLowerCase();
+  if (msg.includes("invalid login") || msg.includes("invalid credentials") || msg.includes("wrong password")) {
+    return { error: "Email o password non corretti.", field: "general" };
+  }
+  if (msg.includes("email not confirmed")) {
+    return { error: "Conferma la tua email prima di accedere.", field: "email" };
+  }
+  if (msg.includes("user already registered")) {
+    return { error: "Esiste già un account con questa email.", field: "email" };
+  }
+  if (msg.includes("password should be")) {
+    return { error: "La password deve essere di almeno 8 caratteri.", field: "password" };
+  }
+  if (msg.includes("unable to validate email")) {
+    return { error: "Indirizzo email non valido.", field: "email" };
+  }
+  return { error: "Qualcosa è andato storto. Riprova.", field: "general" };
+}
 
 export async function login(_prev: AuthState, formData: FormData): Promise<AuthState> {
   const supabase = await createClient();
@@ -14,7 +34,7 @@ export async function login(_prev: AuthState, formData: FormData): Promise<AuthS
     password: formData.get("password") as string,
   });
 
-  if (error) return { error: error.message };
+  if (error) return mapError(error.message);
 
   revalidatePath("/", "layout");
   redirect("/dashboard");
@@ -28,10 +48,10 @@ export async function signup(_prev: AuthState, formData: FormData): Promise<Auth
     password: formData.get("password") as string,
   });
 
-  if (error) return { error: error.message };
+  if (error) return mapError(error.message);
 
   revalidatePath("/", "layout");
-  redirect("/onboarding");
+  redirect("/dashboard");
 }
 
 export async function logout() {
