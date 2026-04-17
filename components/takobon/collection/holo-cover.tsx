@@ -11,13 +11,9 @@ export function HoloCover({ children, intensity = 0.6 }: HoloCoverProps) {
   const shineRef = useRef<HTMLDivElement>(null);
   const glareRef = useRef<HTMLDivElement>(null);
 
-  const handleMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
+  const applyEffect = useCallback(
+    (x: number, y: number) => {
       const hue = Math.round(x * 360);
-
       if (shineRef.current) {
         shineRef.current.style.backgroundImage = `
           radial-gradient(
@@ -30,7 +26,6 @@ export function HoloCover({ children, intensity = 0.6 }: HoloCoverProps) {
         `;
         shineRef.current.style.opacity = "1";
       }
-
       if (glareRef.current) {
         glareRef.current.style.background = `
           radial-gradient(
@@ -45,20 +40,44 @@ export function HoloCover({ children, intensity = 0.6 }: HoloCoverProps) {
     [intensity]
   );
 
-  const handleLeave = useCallback(() => {
+  const reset = useCallback(() => {
     if (shineRef.current) shineRef.current.style.opacity = "0";
     if (glareRef.current) glareRef.current.style.background = "transparent";
   }, []);
 
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      applyEffect(
+        (e.clientX - rect.left) / rect.width,
+        (e.clientY - rect.top) / rect.height
+      );
+    },
+    [applyEffect]
+  );
+
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent<HTMLDivElement>) => {
+      const touch = e.touches[0];
+      const rect = e.currentTarget.getBoundingClientRect();
+      applyEffect(
+        (touch.clientX - rect.left) / rect.width,
+        (touch.clientY - rect.top) / rect.height
+      );
+    },
+    [applyEffect]
+  );
+
   return (
     <div
       className="relative w-full h-full"
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={reset}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={reset}
     >
       {children}
 
-      {/* Holographic shimmer — confined to this element only */}
       <div
         ref={shineRef}
         className="pointer-events-none absolute inset-0 rounded-[inherit] transition-opacity duration-300"

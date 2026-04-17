@@ -26,7 +26,7 @@ export function SeriesCollectionCard({ entry }: { entry: SeriesCollectionEntry }
               src={series.cover_url}
               alt={displayTitle}
               fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              className="object-cover"
               sizes="(max-width: 640px) 50vw, 33vw"
             />
           ) : (
