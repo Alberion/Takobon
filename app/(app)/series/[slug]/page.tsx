@@ -5,6 +5,7 @@ import { BookOpen } from "lucide-react";
 import { getSeriesDetail } from "@/lib/queries/series";
 import { ItemStatusSelector } from "@/components/takobon/series/item-status-selector";
 import { FollowButton } from "@/components/takobon/series/follow-button";
+import { PageHeader } from "@/components/takobon/nav/page-header";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -33,6 +34,8 @@ export default async function SeriesPage({ params }: Props) {
 
   return (
     <div className="min-h-dvh pb-24">
+      <PageHeader transparent />
+
       {/* Hero */}
       <div className="relative">
         {/* Blurred background from cover */}
