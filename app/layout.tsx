@@ -34,7 +34,7 @@ export default function RootLayout({
       lang="it"
       className={`${geistSans.variable} ${geistMono.variable} ${notoSerifJP.variable} dark h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="min-h-full flex flex-col bg-background text-foreground" suppressHydrationWarning>
         {children}
       </body>
     </html>
