@@ -14,7 +14,7 @@ const ADMIN_ROUTES = ["/admin"];
 const AUTH_ROUTES = ["/login", "/signup"];
 const ADMIN_USER_IDS: string[] = []; // Add your Supabase user ID here
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
 
   const supabase = createServerClient(
@@ -67,8 +67,6 @@ export async function proxy(request: NextRequest) {
 
   return supabaseResponse;
 }
-
-export { proxy as middleware };
 
 export const config = {
   matcher: [
