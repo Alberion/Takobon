@@ -4,6 +4,7 @@ import { BookOpen } from "lucide-react";
 import { type SeriesCollectionEntry } from "@/lib/queries/collection";
 import { cn } from "@/lib/utils";
 import { HoloCard } from "./holo-card";
+import { HoloCover } from "./holo-cover";
 
 const typeLabel: Record<string, string> = {
   comic: "Fumetto", manga: "Manga", graphic_novel: "Graphic Novel", bd: "BD",
@@ -16,8 +17,9 @@ export function SeriesCollectionCard({ entry }: { entry: SeriesCollectionEntry }
   return (
     <Link href={`/series/${series.slug}`} className="group block">
       <HoloCard>
-      <div className="takobon-card overflow-hidden" style={{ transformStyle: "preserve-3d" }}>
+      <div className="takobon-card overflow-hidden">
         {/* Cover */}
+        <HoloCover>
         <div className="relative aspect-[2/3] bg-bg-elevated">
           {series.cover_url ? (
             <Image
@@ -51,6 +53,7 @@ export function SeriesCollectionCard({ entry }: { entry: SeriesCollectionEntry }
             </span>
           </div>
         </div>
+        </HoloCover>
 
         {/* Stats row */}
         <div className="flex items-center justify-around py-2 px-2 border-t border-border-subtle">
