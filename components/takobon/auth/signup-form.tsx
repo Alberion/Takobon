@@ -1,8 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import Link from "next/link";
-import { Loader2, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 
 export function SignupForm() {
   const [state, action, pending] = useActionState<AuthState, FormData>(signup, undefined);
+  const [showPassword, setShowPassword] = useState(false);
 
   const emailError = state?.field === "email" || state?.field === "general";
   const passwordError = state?.field === "password" || state?.field === "general";
@@ -42,22 +43,32 @@ export function SignupForm() {
         <Label htmlFor="password" className="text-text-secondary text-xs uppercase tracking-widest">
           Password
         </Label>
-        <Input
-          id="password"
-          name="password"
-          type="password"
-          autoComplete="new-password"
-          required
-          minLength={8}
-          placeholder="Minimo 8 caratteri"
-          aria-invalid={passwordError}
-          className={cn(
-            "h-12 bg-bg-elevated border text-text-primary placeholder:text-text-tertiary rounded-xl transition-colors",
-            passwordError
-              ? "border-red-500 focus-visible:ring-red-500/30 focus-visible:border-red-500"
-              : "border-border-default focus-visible:ring-indigo-500/30 focus-visible:border-indigo-500"
-          )}
-        />
+        <div className="relative">
+          <Input
+            id="password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            autoComplete="new-password"
+            required
+            minLength={8}
+            placeholder="Minimo 8 caratteri"
+            aria-invalid={passwordError}
+            className={cn(
+              "h-12 bg-bg-elevated border text-text-primary placeholder:text-text-tertiary rounded-xl transition-colors pr-12",
+              passwordError
+                ? "border-red-500 focus-visible:ring-red-500/30 focus-visible:border-red-500"
+                : "border-border-default focus-visible:ring-indigo-500/30 focus-visible:border-indigo-500"
+            )}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((v) => !v)}
+            aria-label={showPassword ? "Nascondi password" : "Mostra password"}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-text-tertiary hover:text-text-secondary transition-colors p-1"
+          >
+            {showPassword ? <EyeOff className="size-4" strokeWidth={1.5} /> : <Eye className="size-4" strokeWidth={1.5} />}
+          </button>
+        </div>
       </div>
 
       {state?.error && (
