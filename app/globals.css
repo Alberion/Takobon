@@ -7,9 +7,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -18,11 +17,6 @@
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -39,82 +33,138 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-xl: calc(var(--radius) * 1.5);
+  --radius-2xl: calc(var(--radius) * 2);
+
+  /* Takobon brand tokens */
+  --color-bg-base: var(--bg-base);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-subtle: var(--bg-subtle);
+
+  --color-border-subtle: var(--border-subtle);
+  --color-border-default: var(--border-default);
+  --color-border-strong: var(--border-strong);
+
+  --color-indigo-300: var(--indigo-300);
+  --color-indigo-400: var(--indigo-400);
+  --color-indigo-500: var(--indigo-500);
+  --color-indigo-600: var(--indigo-600);
+  --color-indigo-700: var(--indigo-700);
+
+  --color-gold-300: var(--gold-300);
+  --color-gold-400: var(--gold-400);
+  --color-gold-500: var(--gold-500);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-brand: var(--text-brand);
+
+  --color-state-owned: var(--state-owned);
+  --color-state-missing: var(--state-missing);
+  --color-state-wished: var(--state-wished);
 }
 
+/* Takobon is dark-first. Light root kept minimal for system parity. */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: #f5f4f1;
+  --foreground: #0C0D14;
+  --card: #ffffff;
+  --card-foreground: #0C0D14;
+  --popover: #ffffff;
+  --popover-foreground: #0C0D14;
+  --primary: #6366F1;
+  --primary-foreground: #ffffff;
+  --secondary: #e8e7f0;
+  --secondary-foreground: #0C0D14;
+  --muted: #e8e7f0;
+  --muted-foreground: #6B6878;
+  --accent: #e8e7f0;
+  --accent-foreground: #0C0D14;
+  --destructive: #F87171;
+  --border: #d4d3e0;
+  --input: #e8e7f0;
+  --ring: #6366F1;
+  --radius: 0.75rem;
+  --sidebar: #f5f4f1;
+  --sidebar-foreground: #0C0D14;
+  --sidebar-primary: #6366F1;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e8e7f0;
+  --sidebar-accent-foreground: #0C0D14;
+  --sidebar-border: #d4d3e0;
+  --sidebar-ring: #6366F1;
 }
 
+/* Takobon dark theme — primary mode */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #0C0D14;
+  --foreground: #F0EDE8;
+  --card: #13141F;
+  --card-foreground: #F0EDE8;
+  --popover: #1C1D2E;
+  --popover-foreground: #F0EDE8;
+  --primary: #6366F1;
+  --primary-foreground: #F0EDE8;
+  --secondary: #252641;
+  --secondary-foreground: #F0EDE8;
+  --muted: #252641;
+  --muted-foreground: #A8A5B0;
+  --accent: #252641;
+  --accent-foreground: #F0EDE8;
+  --destructive: #F87171;
+  --border: #2A2B3D;
+  --input: #1C1D2E;
+  --ring: #6366F1;
+  --sidebar: #13141F;
+  --sidebar-foreground: #F0EDE8;
+  --sidebar-primary: #6366F1;
+  --sidebar-primary-foreground: #F0EDE8;
+  --sidebar-accent: #252641;
+  --sidebar-accent-foreground: #F0EDE8;
+  --sidebar-border: #2A2B3D;
+  --sidebar-ring: #6366F1;
+
+  /* Takobon brand tokens */
+  --bg-base: #0C0D14;
+  --bg-surface: #13141F;
+  --bg-elevated: #1C1D2E;
+  --bg-subtle: #252641;
+
+  --border-subtle: #1E1F30;
+  --border-default: #2A2B3D;
+  --border-strong: #3D3E5C;
+
+  --indigo-300: #A5B4FC;
+  --indigo-400: #818CF8;
+  --indigo-500: #6366F1;
+  --indigo-600: #4F46E5;
+  --indigo-700: #4338CA;
+  --indigo-glow: rgba(99, 102, 241, 0.20);
+
+  --gold-300: #D4B896;
+  --gold-400: #C9A96E;
+  --gold-500: #A67C45;
+  --gold-muted: rgba(201, 169, 110, 0.12);
+
+  --text-primary: #F0EDE8;
+  --text-secondary: #A8A5B0;
+  --text-tertiary: #6B6878;
+  --text-brand: #818CF8;
+  --text-inverse: #0C0D14;
+
+  --state-owned: #34D399;
+  --state-missing: #FBBF24;
+  --state-wished: #818CF8;
+
+  --semantic-success: #34D399;
+  --semantic-warning: #FBBF24;
+  --semantic-error: #F87171;
+  --semantic-info: #60A5FA;
 }
 
 @layer base {
@@ -124,7 +174,31 @@
   body {
     @apply bg-background text-foreground;
   }
-  html {
-    @apply font-sans;
+}
+
+/* Takobon utility classes */
+@layer utilities {
+  .takobon-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+  }
+
+  .takobon-card-hover {
+    transition: box-shadow 150ms ease-out, border-color 150ms ease-out;
+  }
+
+  .takobon-card-hover:hover {
+    border-color: var(--indigo-600);
+    box-shadow: 0 0 0 1px var(--indigo-600), 0 4px 24px var(--indigo-glow);
+  }
+
+  .takobon-gold-surface {
+    background: var(--gold-muted);
+    border: 1px solid rgba(201, 169, 110, 0.20);
+  }
+
+  .cover-scrim {
+    background: linear-gradient(to top, rgba(12, 13, 20, 0.92) 0%, transparent 55%);
   }
 }

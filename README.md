@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Takobon
+
+A premium comic and manga collector app for the Italian market.
+
+Takobon helps collectors track what they own, discover what they're missing, manage a wishlist, and understand their collection through a rewarding dashboard. Built to feel like a personal archive — calm, intelligent, and visual-first.
+
+## Vision
+
+- **B2C:** A collector app people love using
+- **B2B (future):** A platform comic shops use to manage pull lists, reservations, and demand signals
+
+## Documentation
+
+| Document | Description |
+|---|---|
+| [Product Plan](docs/product-plan.md) | MVP scope, user flows, information architecture, development phases |
+| [Design System](docs/design-system.md) | Visual identity, color tokens, typography, component principles |
+| [Architecture](docs/architecture.md) | Tech stack, database schema, API structure, infrastructure |
+
+## Tech Stack
+
+- **Frontend:** Next.js 16 + TypeScript + Tailwind CSS v4 + shadcn/ui
+- **Backend:** Supabase (PostgreSQL + Auth + Storage)
+- **Hosting:** Vercel + Supabase
+- **Auth:** Supabase Auth (email + Google OAuth)
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy `.env.local.example` to `.env.local` and fill in your Supabase credentials.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
+```
+app/
+  (auth)/       # login, signup
+  (app)/        # dashboard, collection, search, upcoming, series, profile
+  onboarding/   # first-run flow
+  admin/        # admin panel
+lib/
+  supabase/     # server + browser clients
+components/
+  ui/           # shadcn/ui components
+  takobon/      # app-specific components
+docs/           # product, design, and architecture docs
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Team
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 1 engineer (founder)
+- 1 UX designer
