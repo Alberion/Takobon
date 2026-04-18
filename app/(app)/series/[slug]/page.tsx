@@ -5,6 +5,7 @@ import Link from "next/link";
 import { BookOpen } from "lucide-react";
 import { getSeriesDetail } from "@/lib/queries/series";
 import { ItemStatusSelector } from "@/components/takobon/series/item-status-selector";
+import { BulkStatusBar } from "@/components/takobon/series/bulk-status-bar";
 import { FollowButton } from "@/components/takobon/series/follow-button";
 import { PageHeader } from "@/components/takobon/nav/page-header";
 
@@ -111,9 +112,19 @@ export default async function SeriesPage({ params }: Props) {
 
       {/* Items list */}
       <div className="px-4 space-y-1">
-        <p className="text-xs uppercase tracking-widest text-text-tertiary font-medium pb-3">
-          {itemType === "volume" ? "Volumi" : "Numeri"} · {total}
-        </p>
+        <div className="flex items-center justify-between pb-3">
+          <p className="text-xs uppercase tracking-widest text-text-tertiary font-medium">
+            {itemType === "volume" ? "Volumi" : "Numeri"} · {total}
+          </p>
+          {total > 0 && (
+            <BulkStatusBar
+              seriesId={series.id}
+              itemType={itemType}
+              itemIds={items.map((i) => i.id)}
+              seriesSlug={series.slug}
+            />
+          )}
+        </div>
 
         {items.length === 0 && (
           <div className="py-12 text-center">

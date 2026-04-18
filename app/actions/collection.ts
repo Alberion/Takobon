@@ -40,6 +40,41 @@ export async function setItemStatus(
   revalidatePath("/collection/missing");
 }
 
+export async function setAllItemsStatus(
+  seriesId: string,
+  itemType: "issue" | "volume",
+  itemIds: string[],
+  status: ItemStatus | null,
+  seriesSlug: string
+) {
+  if (itemIds.length === 0) return;
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Non autenticato" };
+
+  if (status === null) {
+    await supabase
+      .from("user_collection_items")
+      .delete()
+      .eq("user_id", user.id)
+      .eq("item_type", itemType)
+      .in("item_id", itemIds);
+  } else {
+    await supabase
+      .from("user_collection_items")
+      .upsert(
+        itemIds.map((id) => ({ user_id: user.id, item_type: itemType, item_id: id, status })),
+        { onConflict: "user_id,item_type,item_id" }
+      );
+  }
+
+  revalidatePath(`/series/${seriesSlug}`);
+  revalidatePath("/dashboard");
+  revalidatePath("/collection");
+  revalidatePath("/collection/wishlist");
+  revalidatePath("/collection/missing");
+}
+
 export async function updatePurchasePrice(
   itemType: "issue" | "volume",
   itemId: string,
