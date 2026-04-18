@@ -42,15 +42,32 @@ export async function setItemStatus(
 
 export async function setAllItemsStatus(
   seriesId: string,
-  itemType: "issue" | "volume",
-  itemIds: string[],
+  seriesSlug: string,
   status: ItemStatus | null,
-  seriesSlug: string
 ) {
-  if (itemIds.length === 0) return;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Non autenticato" };
+
+  // Resolve item type and IDs from series
+  const { data: series } = await supabase
+    .from("series")
+    .select("type")
+    .eq("id", seriesId)
+    .single();
+
+  if (!series) return { error: "Serie non trovata" };
+
+  const table = series.type === "manga" || series.type === "graphic_novel" ? "volumes" : "issues";
+  const itemType = table === "volumes" ? "volume" : "issue";
+
+  const { data: items } = await supabase
+    .from(table)
+    .select("id")
+    .eq("series_id", seriesId);
+
+  const itemIds = (items ?? []).map((i: { id: string }) => i.id);
+  if (itemIds.length === 0) return { error: "Nessun volume trovato" };
 
   if (status === null) {
     await supabase

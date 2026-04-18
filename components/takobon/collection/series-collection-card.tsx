@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { BookOpen } from "lucide-react";
 import { type SeriesCollectionEntry } from "@/lib/queries/collection";
+import { SeriesQuickActions } from "@/components/takobon/series/series-quick-actions";
 import { cn } from "@/lib/utils";
 import { HoloCard } from "./holo-card";
 import { HoloCover } from "./holo-cover";
@@ -60,6 +61,17 @@ export function SeriesCollectionCard({ entry }: { entry: SeriesCollectionEntry }
           <Stat value={owned} color="text-state-owned" label="poss." />
           {wished > 0 && <Stat value={wished} color="text-state-wished" label="wish" />}
           {missing > 0 && <Stat value={missing} color="text-state-missing" label="manc." />}
+        </div>
+
+        {/* Quick actions */}
+        <div className="px-2 pb-2" onClick={(e) => e.preventDefault()}>
+          <SeriesQuickActions
+            seriesId={series.id}
+            seriesSlug={series.slug}
+            owned={owned}
+            wished={wished}
+            missing={missing}
+          />
         </div>
       </div>
       </HoloCard>

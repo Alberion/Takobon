@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { BookOpen, BookMarked } from "lucide-react";
 import { type SeriesResult } from "@/lib/queries/search";
+import { SeriesQuickActions } from "@/components/takobon/series/series-quick-actions";
 import { cn } from "@/lib/utils";
 
 const typeLabel: Record<string, string> = {
@@ -24,7 +25,8 @@ export function SeriesCard({ series }: Props) {
 
   return (
     <Link href={`/series/${series.slug}`} className="group block">
-      <div className="takobon-card takobon-card-hover flex gap-4 p-4">
+      <div className="takobon-card takobon-card-hover flex flex-col p-4">
+        <div className="flex gap-4">
         {/* Cover */}
         <div className="relative w-14 h-20 shrink-0 rounded-lg overflow-hidden bg-bg-elevated border border-border-subtle">
           {series.cover_url ? (
@@ -81,6 +83,14 @@ export function SeriesCard({ series }: Props) {
             ))}
           </div>
         </div>
+        </div>
+        <SeriesQuickActions
+          seriesId={series.id}
+          seriesSlug={series.slug}
+          owned={series.owned}
+          wished={series.wished}
+          missing={series.missing}
+        />
       </div>
     </Link>
   );

@@ -117,12 +117,7 @@ export default async function SeriesPage({ params }: Props) {
             {itemType === "volume" ? "Volumi" : "Numeri"} · {total}
           </p>
           {total > 0 && (
-            <BulkStatusBar
-              seriesId={series.id}
-              itemType={itemType}
-              itemIds={items.map((i) => i.id)}
-              seriesSlug={series.slug}
-            />
+            <BulkStatusBar seriesId={series.id} seriesSlug={series.slug} />
           )}
         </div>
 

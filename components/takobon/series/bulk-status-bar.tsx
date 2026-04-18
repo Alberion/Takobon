@@ -7,8 +7,6 @@ import { cn } from "@/lib/utils";
 
 type Props = {
   seriesId: string;
-  itemType: "issue" | "volume";
-  itemIds: string[];
   seriesSlug: string;
 };
 
@@ -19,14 +17,14 @@ const actions: { status: ItemStatus | null; label: string; icon: typeof Check; s
   { status: null,      label: "Rimuovi tutti",   icon: Trash2, style: "text-text-tertiary hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400" },
 ];
 
-export function BulkStatusBar({ seriesId, itemType, itemIds, seriesSlug }: Props) {
+export function BulkStatusBar({ seriesId, seriesSlug }: Props) {
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   function handle(status: ItemStatus | null) {
     setOpen(false);
     startTransition(async () => {
-      await setAllItemsStatus(seriesId, itemType, itemIds, status, seriesSlug);
+      await setAllItemsStatus(seriesId, seriesSlug, status);
     });
   }
 
