@@ -7,7 +7,7 @@ export function WishlistItemRow({ entry }: { entry: WishlistEntry }) {
   const { detail, estimatedPrice } = entry;
   const series = detail.series;
   const displaySeries = series.title_it ?? series.title;
-  const href = `/series/${series.slug}`;
+  const href = `/series/${series.slug}/${entry.item_type}/${entry.item_id}`;
 
   return (
     <Link href={href} className="group block">

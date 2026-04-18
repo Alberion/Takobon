@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { BookOpen } from "lucide-react";
 import { getSeriesDetail } from "@/lib/queries/series";
 import { ItemStatusSelector } from "@/components/takobon/series/item-status-selector";
@@ -125,8 +126,8 @@ export default async function SeriesPage({ params }: Props) {
             key={item.id}
             className="takobon-card flex items-center gap-3 px-4 py-3"
           >
-            {/* Mini cover */}
-            <div className="relative w-8 h-12 shrink-0 rounded-md overflow-hidden bg-bg-elevated border border-border-subtle">
+            {/* Mini cover — links to item detail */}
+            <Link href={`/series/${series.slug}/${itemType}/${item.id}`} className="relative w-8 h-12 shrink-0 rounded-md overflow-hidden bg-bg-elevated border border-border-subtle hover:border-indigo-500/40 transition-colors">
               {item.cover_url ? (
                 <Image src={item.cover_url} alt={`#${item.number}`} fill className="object-cover" sizes="32px" />
               ) : (
@@ -134,10 +135,10 @@ export default async function SeriesPage({ params }: Props) {
                   <span className="font-mono text-[8px] text-text-tertiary">#{item.number}</span>
                 </div>
               )}
-            </div>
+            </Link>
 
             {/* Info */}
-            <div className="flex-1 min-w-0">
+            <Link href={`/series/${series.slug}/${itemType}/${item.id}`} className="flex-1 min-w-0">
               <div className="flex items-baseline gap-2">
                 <span className="font-mono text-xs text-text-tertiary shrink-0">
                   #{String(item.number).padStart(3, "0")}
@@ -151,7 +152,7 @@ export default async function SeriesPage({ params }: Props) {
                   € {item.cover_price_eur.toFixed(2)}
                 </span>
               )}
-            </div>
+            </Link>
 
             {/* Status selector */}
             <ItemStatusSelector

@@ -7,12 +7,12 @@ import { createClient } from "@/lib/supabase/server";
 async function fetchItemsWithSeries(userId: string, status?: "owned" | "wished" | "missing") {
   const supabase = await createClient();
 
-  const query = supabase
+  let query = supabase
     .from("user_collection_items")
     .select("id, item_type, item_id, status, added_at, purchase_price_eur")
     .eq("user_id", userId);
 
-  if (status) query.eq("status", status);
+  if (status) query = query.eq("status", status);
 
   const { data: items } = await query.order("added_at", { ascending: false });
   if (!items || items.length === 0) return [];

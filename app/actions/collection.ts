@@ -36,6 +36,30 @@ export async function setItemStatus(
   revalidatePath(`/series/${seriesSlug}`);
   revalidatePath("/dashboard");
   revalidatePath("/collection");
+  revalidatePath("/collection/wishlist");
+  revalidatePath("/collection/missing");
+}
+
+export async function updatePurchasePrice(
+  itemType: "issue" | "volume",
+  itemId: string,
+  price: number | null,
+  seriesSlug: string
+) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Non autenticato" };
+
+  await supabase
+    .from("user_collection_items")
+    .update({ purchase_price_eur: price })
+    .eq("user_id", user.id)
+    .eq("item_type", itemType)
+    .eq("item_id", itemId);
+
+  revalidatePath(`/series/${seriesSlug}`);
+  revalidatePath("/collection");
+  revalidatePath("/collection/wishlist");
 }
 
 export async function followSeries(seriesId: string, seriesSlug: string) {
