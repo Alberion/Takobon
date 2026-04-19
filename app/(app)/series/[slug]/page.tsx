@@ -98,7 +98,10 @@ export default async function SeriesPage({ params }: Props) {
               </div>
             )}
 
-            <FollowButton seriesId={series.id} seriesSlug={series.slug} isFollowing={isFollowing} />
+            <div className="flex items-center gap-2">
+              <FollowButton seriesId={series.id} seriesSlug={series.slug} isFollowing={isFollowing} />
+              <BulkStatusBar seriesId={series.id} seriesSlug={series.slug} />
+            </div>
           </div>
         </div>
 
@@ -112,14 +115,9 @@ export default async function SeriesPage({ params }: Props) {
 
       {/* Items list */}
       <div className="px-4 space-y-1">
-        <div className="flex items-center justify-between pb-3">
-          <p className="text-xs uppercase tracking-widest text-text-tertiary font-medium">
-            {itemType === "volume" ? "Volumi" : "Numeri"} · {total}
-          </p>
-          {total > 0 && (
-            <BulkStatusBar seriesId={series.id} seriesSlug={series.slug} />
-          )}
-        </div>
+        <p className="text-xs uppercase tracking-widest text-text-tertiary font-medium pb-3">
+          {itemType === "volume" ? "Volumi" : "Numeri"} · {total}
+        </p>
 
         {items.length === 0 && (
           <div className="py-12 text-center">
