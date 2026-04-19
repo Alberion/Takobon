@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { BookOpen, Calendar, Barcode, Tag } from "lucide-react";
+import { Calendar, Barcode, Tag } from "lucide-react";
 import { getItemDetail } from "@/lib/queries/series";
 import { ItemStatusSelector } from "@/components/takobon/series/item-status-selector";
 import { PriceField } from "@/components/takobon/series/price-field";
 import { PageHeader } from "@/components/takobon/nav/page-header";
+import { CoverImage } from "@/components/takobon/shared/cover-image";
 
 type Props = { params: Promise<{ slug: string; type: string; id: string }> };
 
@@ -45,15 +46,7 @@ export default async function ItemPage({ params }: Props) {
         <div className="relative px-4 pt-8 pb-8 flex gap-5">
           {/* Cover */}
           <div className="relative w-28 h-[168px] shrink-0 rounded-xl overflow-hidden border border-border-default shadow-2xl shadow-black/50">
-            {item.cover_url ? (
-              <Image src={item.cover_url} alt={displayTitle} fill className="object-cover" sizes="112px" />
-            ) : series.cover_url ? (
-              <Image src={series.cover_url} alt={displayTitle} fill className="object-cover" sizes="112px" />
-            ) : (
-              <div className="absolute inset-0 bg-bg-elevated flex items-center justify-center">
-                <BookOpen className="size-8 text-text-tertiary" strokeWidth={1} />
-              </div>
-            )}
+            <CoverImage src={item.cover_url ?? series.cover_url} alt={displayTitle} sizes="112px" />
           </div>
 
           {/* Info */}

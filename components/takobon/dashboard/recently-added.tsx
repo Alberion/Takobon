@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { type RecentItem } from "@/lib/queries/dashboard";
+import { CoverImage } from "@/components/takobon/shared/cover-image";
 
 type Props = {
   items: RecentItem[];
@@ -31,21 +31,12 @@ function CoverCard({ item }: { item: RecentItem }) {
   return (
     <Link href={href} className="group block">
       <div className="relative aspect-[2/3] rounded-lg overflow-hidden bg-bg-elevated border border-border-default takobon-card-hover">
-        {item.cover_url ? (
-          <Image
-            src={item.cover_url}
-            alt={item.title ?? `#${item.number}`}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-            sizes="(max-width: 640px) 33vw, (max-width: 768px) 25vw, 16vw"
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="font-mono text-xs text-text-tertiary">
-              #{item.number}
-            </span>
-          </div>
-        )}
+        <CoverImage
+          src={item.cover_url}
+          alt={item.series_title ?? item.title ?? `#${item.number}`}
+          sizes="(max-width: 640px) 33vw, (max-width: 768px) 25vw, 16vw"
+          className="transition-transform duration-300 group-hover:scale-105"
+        />
         {/* Scrim with title */}
         <div className="cover-scrim absolute inset-0 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <span className="font-mono text-[10px] text-white leading-tight line-clamp-2">

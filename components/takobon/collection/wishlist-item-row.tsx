@@ -1,7 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
-import { BookOpen } from "lucide-react";
 import { type WishlistEntry } from "@/lib/queries/collection";
+import { CoverImage } from "@/components/takobon/shared/cover-image";
 
 export function WishlistItemRow({ entry }: { entry: WishlistEntry }) {
   const { detail, estimatedPrice } = entry;
@@ -14,13 +13,7 @@ export function WishlistItemRow({ entry }: { entry: WishlistEntry }) {
       <div className="takobon-card takobon-card-hover flex items-center gap-3 px-4 py-3">
         {/* Mini cover */}
         <div className="relative w-10 h-14 shrink-0 rounded-lg overflow-hidden bg-bg-elevated border border-border-subtle">
-          {detail.cover_url ? (
-            <Image src={detail.cover_url} alt={`#${detail.number}`} fill className="object-cover" sizes="40px" />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <BookOpen className="size-3.5 text-text-tertiary" strokeWidth={1.5} />
-            </div>
-          )}
+          <CoverImage src={detail.cover_url} alt={`${detail.series?.title ?? ""} #${detail.number}`} sizes="40px" />
         </div>
 
         {/* Info */}

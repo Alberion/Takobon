@@ -1,8 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
-import { BookOpen } from "lucide-react";
 import { type SeriesCollectionEntry } from "@/lib/queries/collection";
 import { SeriesQuickActions } from "@/components/takobon/series/series-quick-actions";
+import { CoverImage } from "@/components/takobon/shared/cover-image";
 import { cn } from "@/lib/utils";
 import { HoloCard } from "./holo-card";
 import { HoloCover } from "./holo-cover";
@@ -22,19 +21,7 @@ export function SeriesCollectionCard({ entry }: { entry: SeriesCollectionEntry }
         {/* Cover */}
         <HoloCover>
         <div className="relative aspect-[2/3] bg-bg-elevated">
-          {series.cover_url ? (
-            <Image
-              src={series.cover_url}
-              alt={displayTitle}
-              fill
-              className="object-cover"
-              sizes="(max-width: 640px) 50vw, 33vw"
-            />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <BookOpen className="size-8 text-text-tertiary" strokeWidth={1} />
-            </div>
-          )}
+          <CoverImage src={series.cover_url} alt={displayTitle} sizes="(max-width: 640px) 50vw, 33vw" />
 
           {/* Scrim */}
           <div className="cover-scrim absolute inset-0 flex flex-col justify-end p-2.5">

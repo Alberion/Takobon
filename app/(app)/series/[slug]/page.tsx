@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { BookOpen } from "lucide-react";
 import { getSeriesDetail } from "@/lib/queries/series";
 import { ItemStatusSelector } from "@/components/takobon/series/item-status-selector";
 import { BulkStatusBar } from "@/components/takobon/series/bulk-status-bar";
 import { FollowButton } from "@/components/takobon/series/follow-button";
 import { PageHeader } from "@/components/takobon/nav/page-header";
+import { CoverImage } from "@/components/takobon/shared/cover-image";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -51,13 +51,7 @@ export default async function SeriesPage({ params }: Props) {
         <div className="relative px-4 pt-8 pb-6 flex gap-4">
           {/* Cover */}
           <div className="relative w-24 h-36 shrink-0 rounded-xl overflow-hidden border border-border-default shadow-xl shadow-black/40">
-            {series.cover_url ? (
-              <Image src={series.cover_url} alt={displayTitle} fill className="object-cover" sizes="96px" />
-            ) : (
-              <div className="absolute inset-0 bg-bg-elevated flex items-center justify-center">
-                <BookOpen className="size-8 text-text-tertiary" strokeWidth={1} />
-              </div>
-            )}
+            <CoverImage src={series.cover_url} alt={displayTitle} sizes="96px" />
           </div>
 
           {/* Info */}
@@ -132,13 +126,7 @@ export default async function SeriesPage({ params }: Props) {
           >
             {/* Mini cover — links to item detail */}
             <Link href={`/series/${series.slug}/${itemType}/${item.id}`} className="relative w-8 h-12 shrink-0 rounded-md overflow-hidden bg-bg-elevated border border-border-subtle hover:border-indigo-500/40 transition-colors">
-              {item.cover_url ? (
-                <Image src={item.cover_url} alt={`#${item.number}`} fill className="object-cover" sizes="32px" />
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-mono text-[8px] text-text-tertiary">#{item.number}</span>
-                </div>
-              )}
+              <CoverImage src={item.cover_url ?? series.cover_url} alt={`${displayTitle} #${item.number}`} sizes="32px" />
             </Link>
 
             {/* Info */}

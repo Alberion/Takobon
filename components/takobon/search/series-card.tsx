@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
-import { BookOpen, BookMarked } from "lucide-react";
+import { BookMarked } from "lucide-react";
 import { type SeriesResult } from "@/lib/queries/search";
 import { SeriesQuickActions } from "@/components/takobon/series/series-quick-actions";
+import { CoverImage } from "@/components/takobon/shared/cover-image";
 import { cn } from "@/lib/utils";
 
 const typeLabel: Record<string, string> = {
@@ -29,19 +29,7 @@ export function SeriesCard({ series }: Props) {
         <div className="flex gap-4">
         {/* Cover */}
         <div className="relative w-14 h-20 shrink-0 rounded-lg overflow-hidden bg-bg-elevated border border-border-subtle">
-          {series.cover_url ? (
-            <Image
-              src={series.cover_url}
-              alt={displayTitle}
-              fill
-              className="object-cover"
-              sizes="56px"
-            />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <BookOpen className="size-5 text-text-tertiary" strokeWidth={1.5} />
-            </div>
-          )}
+          <CoverImage src={series.cover_url} alt={displayTitle} sizes="56px" />
         </div>
 
         {/* Info */}

@@ -1,7 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
-import { BookOpen } from "lucide-react";
 import { type MissingGroup } from "@/lib/queries/collection";
+import { CoverImage } from "@/components/takobon/shared/cover-image";
 import { cn } from "@/lib/utils";
 
 export function MissingGroupCard({ group }: { group: MissingGroup }) {
@@ -13,13 +12,7 @@ export function MissingGroupCard({ group }: { group: MissingGroup }) {
       {/* Series header */}
       <Link href={`/series/${series.slug}`} className="flex items-center gap-3 px-4 py-3 border-b border-border-subtle hover:bg-bg-subtle/50 transition-colors group">
         <div className="relative w-8 h-12 shrink-0 rounded-md overflow-hidden bg-bg-elevated border border-border-subtle">
-          {series.cover_url ? (
-            <Image src={series.cover_url} alt={displayTitle} fill className="object-cover" sizes="32px" />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <BookOpen className="size-3 text-text-tertiary" strokeWidth={1.5} />
-            </div>
-          )}
+          <CoverImage src={series.cover_url} alt={displayTitle} sizes="32px" />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium text-text-primary truncate group-hover:text-indigo-300 transition-colors">

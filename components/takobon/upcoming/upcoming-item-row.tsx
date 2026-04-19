@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
-import { BookOpen, CheckCircle, Clock } from "lucide-react";
+import { CheckCircle, Clock } from "lucide-react";
 import { type UpcomingItem } from "@/lib/queries/upcoming";
+import { CoverImage } from "@/components/takobon/shared/cover-image";
 
 export function UpcomingItemRow({ item }: { item: UpcomingItem }) {
   const seriesTitle = item.series?.title_it ?? item.series?.title ?? "Serie sconosciuta";
@@ -16,15 +16,7 @@ export function UpcomingItemRow({ item }: { item: UpcomingItem }) {
     <Link href={href} className="flex items-center gap-3 takobon-card px-4 py-3 hover:bg-bg-elevated/60 transition-colors group">
       {/* Cover */}
       <div className="relative w-10 h-14 shrink-0 rounded-lg overflow-hidden bg-bg-elevated border border-border-subtle">
-        {item.cover_url ? (
-          <Image src={item.cover_url} alt={itemTitle} fill className="object-cover" sizes="40px" />
-        ) : item.series?.cover_url ? (
-          <Image src={item.series.cover_url} alt={seriesTitle} fill className="object-cover" sizes="40px" />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <BookOpen className="size-3 text-text-tertiary" strokeWidth={1.5} />
-          </div>
-        )}
+        <CoverImage src={item.cover_url ?? item.series?.cover_url} alt={seriesTitle} sizes="40px" />
       </div>
 
       {/* Info */}
