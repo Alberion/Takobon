@@ -64,7 +64,7 @@ export function SeriesCollectionCard({ entry }: { entry: SeriesCollectionEntry }
         </div>
 
         {/* Quick actions */}
-        <div className="px-2 pb-2" onClick={(e) => e.preventDefault()}>
+        <div className="px-2 pb-2">
           <SeriesQuickActions
             seriesId={series.id}
             seriesSlug={series.slug}
