@@ -1,6 +1,6 @@
 "use client";
 
-import { useOptimistic, useTransition, useRef } from "react";
+import { useOptimistic, useTransition, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { followSeries, unfollowSeries } from "@/app/actions/collection";
@@ -17,7 +17,7 @@ export function FollowButton({ seriesId, seriesSlug, isFollowing }: Props) {
   const [isPending, startTransition] = useTransition();
   const [optimisticFollowing, setOptimisticFollowing] = useOptimistic(isFollowing);
   const burstKey = useRef(0);
-  const [showBurst, setShowBurst] = useOptimistic(false);
+  const [showBurst, setShowBurst] = useState(false);
 
   function handleClick() {
     if (optimisticFollowing) {
@@ -30,9 +30,10 @@ export function FollowButton({ seriesId, seriesSlug, isFollowing }: Props) {
     }
 
     burstKey.current++;
+    setShowBurst(true);
+    setTimeout(() => setShowBurst(false), 600);
     startTransition(async () => {
       setOptimisticFollowing(true);
-      setShowBurst(true);
       await followSeries(seriesId, seriesSlug);
     });
   }
