@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Calendar, Barcode, Tag } from "lucide-react";
+import { Calendar, Barcode, Tag, BookOpen } from "lucide-react";
 import { getItemDetail } from "@/lib/queries/series";
 import { ItemStatusSelector } from "@/components/takobon/series/item-status-selector";
 import { PriceField } from "@/components/takobon/series/price-field";
