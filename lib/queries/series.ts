@@ -41,10 +41,10 @@ export async function getSeriesDetail(slug: string) {
   const isFollowing = user
     ? !!(await supabase
         .from("user_series_follows")
-        .select("id", { count: "exact", head: true })
+        .select("id")
         .eq("user_id", user.id)
         .eq("series_id", series.id)
-        .single()).data
+        .maybeSingle()).data
     : false;
 
   // Fetch items
