@@ -141,6 +141,7 @@ export async function followSeries(seriesId: string, seriesSlug: string) {
 
   revalidatePath(`/series/${seriesSlug}`);
   revalidatePath("/dashboard");
+  revalidatePath("/collection");
 }
 
 export async function unfollowSeries(seriesId: string, seriesSlug: string) {
@@ -156,4 +157,5 @@ export async function unfollowSeries(seriesId: string, seriesSlug: string) {
 
   revalidatePath(`/series/${seriesSlug}`);
   revalidatePath("/dashboard");
+  revalidatePath("/collection");
 }

@@ -77,14 +77,28 @@ export type SeriesCollectionEntry = {
 };
 
 export async function getCollectionLibrary(userId: string): Promise<SeriesCollectionEntry[]> {
-  const items = await fetchItemsWithSeries(userId);
+  const supabase = await createClient();
+
+  // All followed series appear in the library, even with no items marked yet
+  const { data: follows } = await supabase
+    .from("user_series_follows")
+    .select("followed_at:created_at, series:series_id(id, title, title_it, slug, cover_url, type, publisher:publisher_id(name))")
+    .eq("user_id", userId);
+
+  const [items] = await Promise.all([fetchItemsWithSeries(userId)]);
 
   const map = new Map<string, SeriesCollectionEntry>();
+
+  // Seed with followed series
+  for (const f of follows ?? []) {
+    const s = f.series as any;
+    if (s) map.set(s.id, { series: s, owned: 0, wished: 0, missing: 0, lastAdded: f.followed_at ?? "" });
+  }
+
+  // Overlay item counts
   for (const item of items) {
     const s = item.detail.series;
-    if (!map.has(s.id)) {
-      map.set(s.id, { series: s, owned: 0, wished: 0, missing: 0, lastAdded: item.added_at });
-    }
+    if (!map.has(s.id)) map.set(s.id, { series: s, owned: 0, wished: 0, missing: 0, lastAdded: item.added_at });
     const entry = map.get(s.id)!;
     if (item.status === "owned") entry.owned++;
     else if (item.status === "wished") entry.wished++;
