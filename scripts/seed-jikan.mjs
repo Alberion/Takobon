@@ -115,7 +115,7 @@ async function main() {
         sql.push(`insert into volumes (series_id, number, cover_url, release_date_it, cover_price_eur)`);
         sql.push(`select id, ${i}, ${sqlStr(coverUrl)}, ${releaseDate ? sqlStr(releaseDate) : "NULL"}, ${price}`);
         sql.push(`from series where slug = '${entry.slug}'`);
-        sql.push(`on conflict (series_id, number) do nothing;`);
+        sql.push(`on conflict (series_id, number) do update set cover_url = excluded.cover_url;`);
       }
       sql.push("");
     }
