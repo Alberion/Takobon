@@ -31,6 +31,18 @@ export async function setItemStatus(
         item_id: itemId,
         status,
       }, { onConflict: "user_id,item_type,item_id" });
+
+    // Auto-follow the series when adding to collection
+    const { data: series } = await supabase
+      .from("series")
+      .select("id")
+      .eq("slug", seriesSlug)
+      .single();
+    if (series) {
+      await supabase
+        .from("user_series_follows")
+        .upsert({ user_id: user.id, series_id: series.id }, { onConflict: "user_id,series_id" });
+    }
   }
 
   revalidatePath(`/series/${seriesSlug}`);
@@ -83,6 +95,10 @@ export async function setAllItemsStatus(
         itemIds.map((id) => ({ user_id: user.id, item_type: itemType, item_id: id, status })),
         { onConflict: "user_id,item_type,item_id" }
       );
+    // Auto-follow the series
+    await supabase
+      .from("user_series_follows")
+      .upsert({ user_id: user.id, series_id: seriesId }, { onConflict: "user_id,series_id" });
   }
 
   revalidatePath(`/series/${seriesSlug}`);

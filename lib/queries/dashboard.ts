@@ -39,11 +39,29 @@ export async function getDashboardStats(userId: string): Promise<DashboardStats>
     .select("*", { count: "exact", head: true })
     .eq("user_id", userId);
 
-  // Estimated value: sum of purchase_price where provided
-  // Full cover price logic requires joining issues/volumes — simplified for MVP
-  const estimatedValue = items
-    .filter((i) => i.status === "owned" && i.purchase_price_eur)
-    .reduce((sum, i) => sum + (i.purchase_price_eur ?? 0), 0);
+  // Estimated value: purchase_price if set, else cover_price from catalog
+  const ownedItems = items.filter((i) => i.status === "owned");
+  const ownedIssueIds = ownedItems.filter((i) => i.item_type === "issue").map((i) => i.item_id);
+  const ownedVolumeIds = ownedItems.filter((i) => i.item_type === "volume").map((i) => i.item_id);
+
+  const [issuesRes, volumesRes] = await Promise.all([
+    ownedIssueIds.length > 0
+      ? supabase.from("issues").select("id, cover_price_eur").in("id", ownedIssueIds)
+      : Promise.resolve({ data: [] }),
+    ownedVolumeIds.length > 0
+      ? supabase.from("volumes").select("id, cover_price_eur").in("id", ownedVolumeIds)
+      : Promise.resolve({ data: [] }),
+  ]);
+
+  const coverPrices = new Map<string, number>([
+    ...(issuesRes.data ?? []).map((i: any) => [i.id, i.cover_price_eur ?? 0] as [string, number]),
+    ...(volumesRes.data ?? []).map((v: any) => [v.id, v.cover_price_eur ?? 0] as [string, number]),
+  ]);
+
+  const estimatedValue = ownedItems.reduce((sum, i) => {
+    const price = i.purchase_price_eur ?? coverPrices.get(i.item_id) ?? 0;
+    return sum + price;
+  }, 0);
 
   // Recently added owned items (last 12)
   const { data: recent } = await supabase

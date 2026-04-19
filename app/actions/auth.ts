@@ -54,6 +54,18 @@ export async function signup(_prev: AuthState, formData: FormData): Promise<Auth
   redirect("/dashboard");
 }
 
+export async function loginWithGoogle(): Promise<{ url: string } | AuthState> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/auth/callback`,
+    },
+  });
+  if (error) return mapError(error.message);
+  return { url: data.url };
+}
+
 export async function logout() {
   const supabase = await createClient();
   await supabase.auth.signOut();
